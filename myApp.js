@@ -1,4 +1,5 @@
 require("dotenv").config();
+let bodyParser = require("body-parser");
 let express = require("express");
 let app = express();
 
@@ -48,6 +49,13 @@ app.get("/:word/echo", (req, res) => {
   const { word } = req.params;
   res.json({
     echo: word,
+  });
+});
+
+app.get("/name", function (req, res) {
+  let { first: firstName, last: lastName } = req.query;
+  res.json({
+    name: `${firstName} ${lastName}`,
   });
 });
 
