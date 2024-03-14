@@ -5,6 +5,8 @@ let app = express();
 
 console.log("Hello World");
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // app.get("/", (req, res) => {
 //   res.send("Hello Express");
 // });
