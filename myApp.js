@@ -8,11 +8,16 @@ console.log("Hello World");
 //   res.send("Hello Express");
 // });
 
+app.use("/public", express.static(__dirname + "/public"));
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - ${req.ip}`);
+  next();
+});
+
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
-
-app.use("/public", express.static(__dirname + "/public"));
 
 app.get("/json", (req, res) => {
   let response;
@@ -23,6 +28,26 @@ app.get("/json", (req, res) => {
   }
   res.json({
     message: response,
+  });
+});
+
+app.get(
+  "/now",
+  (req, res, next) => {
+    req.time = new Date().toString();
+    next();
+  },
+  (req, res) => {
+    res.json({
+      time: req.time,
+    });
+  }
+);
+
+app.get("/:word/echo", (req, res) => {
+  const { word } = req.params;
+  res.json({
+    echo: word,
   });
 });
 
